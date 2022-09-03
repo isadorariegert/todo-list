@@ -9,26 +9,49 @@ function ListScreen() {
     const handleNewTaskLabelChange = (e: ChangeEvent<HTMLInputElement>) => setNewTaskLabel(e.target.value);
     const handleNewTaskKeypress = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && (e.currentTarget.value.trim().length != 0)) { //validation to deny insert blank spaces
-            setTasks((tasks) => [...tasks, {id: nanoid(), label: newTaskLabel}])
+            setTasks((tasks) => [...tasks, {id: nanoid(), label: newTaskLabel, isComplete: false}])
             setNewTaskLabel(''); //to clear the input
         }
     };
 
+    const handleCompleteChange = 
+    (handleTask: TaskTS) => (e: ChangeEvent<HTMLInputElement>) => {
+        setTasks((tasks) =>
+            tasks.map((task) => {
+                if (task.id === handleTask.id) 
+                    return {...task, isComplete: e.target.checked};
+                return task;
+        }));
+    };
+
+    const handleClearClick = () => {
+        setTasks(tasks => tasks.filter(task => !task.isComplete))
+    }
+
+    console.log(tasks)
+
     return (
     <div>
-        <ul>
+        <div>
             {tasks.map((task) => (
-                <li key={task.id}>
+                <div key={task.id}>
+                    <input 
+                    type="checkbox" 
+                    checked={task.isComplete} 
+                    onChange={handleCompleteChange(task)}
+                    />
                     {task.label}
-                </li>
+                </div>
             ))}
-        </ul>
+        </div>
         <input 
-        type="text" 
         value={newTaskLabel} 
         onChange={handleNewTaskLabelChange}
         onKeyPress={handleNewTaskKeypress}
         />
+        <div>
+            <button onClick={handleClearClick}>Clear Completed Tasks</button>
+        </div>
     </div>
     )
 }
