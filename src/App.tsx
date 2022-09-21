@@ -7,7 +7,17 @@ import { TaskTS } from './models/Task';
 
 function App() {
   const [tasks, setTasks] = useState<TaskTS[]>([]);
-  const tasksProps = { tasks, setTasks };
+
+  const updateTaskCompletion = (taskId: string, isComplete: boolean) => {
+    setTasks((tasks) =>
+      tasks.map((task) => {
+        if (task.id === taskId) return { ...task, isComplete };
+        return task;
+      })
+    );
+  };
+
+  const tasksApi = { tasks, setTasks, updateTaskCompletion };
 
   return (
     <Router>
@@ -16,8 +26,8 @@ function App() {
       </nav>
       <br />
       <Routes>
-        <Route path="/" element={<ListScreen {...tasksProps} />}></Route>
-        <Route path="/focus" element={<FocusScreen {...tasksProps} />}></Route>
+        <Route path="/" element={<ListScreen {...tasksApi} />}></Route>
+        <Route path="/focus" element={<FocusScreen {...tasksApi} />}></Route>
       </Routes>
     </Router>
   );

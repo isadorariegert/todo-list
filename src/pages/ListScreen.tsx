@@ -4,7 +4,11 @@ import { TasksProps, TaskTS } from '../models/Task';
 
 type Props = TasksProps & {};
 
-const ListScreen: React.FC<Props> = ({ tasks, setTasks }) => {
+const ListScreen: React.FC<Props> = ({
+  tasks,
+  setTasks,
+  updateTaskCompletion,
+}) => {
   const [newTaskLabel, setNewTaskLabel] = useState('');
 
   const handleNewTaskLabelChange = (e: ChangeEvent<HTMLInputElement>) =>
@@ -21,14 +25,8 @@ const ListScreen: React.FC<Props> = ({ tasks, setTasks }) => {
   };
 
   const handleTaskCompleteChange =
-    (handleTask: TaskTS) => (e: ChangeEvent<HTMLInputElement>) => {
-      setTasks((tasks) =>
-        tasks.map((task) => {
-          if (task.id === handleTask.id)
-            return { ...task, isComplete: e.target.checked };
-          return task;
-        })
-      );
+    (task: TaskTS) => (e: ChangeEvent<HTMLInputElement>) => {
+      updateTaskCompletion(task.id, e.target.checked);
     };
 
   const handleTaskDeleteClick = (handledTask: TaskTS) => () => {

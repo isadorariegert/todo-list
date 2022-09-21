@@ -7,4 +7,5 @@ export interface TaskTS {
 export interface TasksProps {
   tasks: TaskTS[];
   setTasks: React.Dispatch<React.SetStateAction<TaskTS[]>>;
+  updateTaskCompletion: (taskId: string, isComplete: boolean) => void;
 }
