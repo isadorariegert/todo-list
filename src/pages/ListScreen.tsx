@@ -1,9 +1,10 @@
 import { nanoid } from 'nanoid';
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { TaskTS } from '../models/Task';
+import { TasksProps, TaskTS } from '../models/Task';
 
-function ListScreen() {
-  const [tasks, setTasks] = useState<TaskTS[]>([]);
+type Props = TasksProps & {};
+
+const ListScreen: React.FC<Props> = ({ tasks, setTasks }) => {
   const [newTaskLabel, setNewTaskLabel] = useState('');
 
   const handleNewTaskLabelChange = (e: ChangeEvent<HTMLInputElement>) =>
@@ -65,6 +66,6 @@ function ListScreen() {
       </div>
     </div>
   );
-}
+};
 
 export default ListScreen;
